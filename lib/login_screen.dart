@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:my_mall/explore.dart';
 import 'package:my_mall/sign_up.dart';
+import 'package:my_mall/verification.dart';
 //import 'package:flutter_screen/dashboard.dart';
 //import 'package:flutter_screen/forgot_password_screen.dart';
 //import 'create_new_account.dart';
@@ -9,16 +11,13 @@ class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
   @override
   Future<void> loginWithFacebook() async {}
-
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
-
   TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
-
   bool _isObscure = true;
   @override
   void showAlertDialog(
@@ -51,68 +50,54 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Row(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: ExactAssetImage('assets/example.png'),
-                        fit: BoxFit.fitHeight,
-                      ),
-                    ),
-                    alignment: Alignment.topLeft,
-                    padding: const EdgeInsets.only(
-                        top: 55, left: 10, right: 10, bottom: 10),
-                    child: const Text(
-                      'Welcome,',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30),
-                    ),
-                  ),
-                  Spacer(),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Signup()),
-                        );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        top: 55,
-                        left: 10,
-                        right: 10,
-                        bottom: 10,
-                      ),
-                      child: Text(
-                        'Sign Up',
+              Container(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 40, left: 10, bottom: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Welcome,',
                         style: TextStyle(
-                          color: Colors.blue,
-                          fontSize: 15,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30),
+                      ),
+                      Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Signup()),
+                          );
+                        },
+                        child: Text(
+                          'Sign Up',
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontSize: 15,
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
               Container(
-                  alignment: Alignment.topLeft,
-                  padding:
-                      const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                  //alignment: Alignment.topLeft,
+                  padding: const EdgeInsets.only(left: 10, bottom: 10),
                   child: const Text(
                     'Sign in to Continue',
                     style: TextStyle(fontSize: 12, color: Colors.black38),
                   )),
-              Container(
-                padding: const EdgeInsets.only(
-                    top: 22, left: 12, bottom: 1, right: 20),
-                child: Text(
-                  "Email",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(fontSize: 12, color: Colors.black38),
+              Padding(
+                padding: const EdgeInsets.only(left: 10, top: 20),
+                child: Container(
+                  child: Text(
+                    "Email",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(fontSize: 12, color: Colors.black38),
+                  ),
                 ),
               ),
               Container(
@@ -125,13 +110,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.only(
-                    top: 19, left: 15, bottom: 1, right: 20),
-                child: Text(
-                  "Password",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(fontSize: 12, color: Colors.black38),
+              Padding(
+                padding: const EdgeInsets.only(top: 12, left: 10),
+                child: Container(
+                  child: Text(
+                    "Password",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(fontSize: 12, color: Colors.black38),
+                  ),
                 ),
               ),
               Padding(
@@ -182,13 +168,21 @@ class _LoginScreenState extends State<LoginScreen> {
                     //     //       builder: (context) => ForgotPasswordScreen()),
                     //     // );
                     //   },
-                    Text(
-                      'forgot password?',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12),
-                    ),
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Verification()),
+                          );
+                        },
+                        child: Text(
+                          'Forget Password',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
                     //),
                   ],
                 ),
@@ -200,18 +194,47 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: ElevatedButton(
                       child: const Text('SIGN IN'),
                       style: ElevatedButton.styleFrom(
-                        // shape: RoundedRectangleBorder(
-                        //     borderRadius: BorderRadius.circular(13)),
                         textStyle:
                             const TextStyle(fontSize: 15, color: Colors.blue),
-                        // primary: Color(0xFFC8E6C9),
                       ),
                       onPressed: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) => CreateNewAccountScreen()),
-                        // );
+                        if (emailController.text == "") {
+                          final scaffold = ScaffoldMessenger.of(context);
+                          scaffold.showSnackBar(
+                            SnackBar(
+                              content: Text("Email field is empty"),
+                            ),
+                          );
+                        } else if (passwordController.text == "") {
+                          final scaffold = ScaffoldMessenger.of(context);
+                          scaffold.showSnackBar(
+                            SnackBar(
+                              content: Text("password field is empty"),
+                            ),
+                          );
+                        } else if (!RegExp(
+                                r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
+                            .hasMatch(emailController.text)) {
+                          final scaffold = ScaffoldMessenger.of(context);
+                          scaffold.showSnackBar(
+                            SnackBar(
+                              content: Text("please enter valid email"),
+                            ),
+                          );
+                        } else if (passwordController.text.length < 8) {
+                          final scaffold = ScaffoldMessenger.of(context);
+                          scaffold.showSnackBar(
+                            SnackBar(
+                              content: Text("password should be 8 char"),
+                            ),
+                          );
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Explore()),
+                          );
+                        }
                       })),
               Padding(
                 padding: const EdgeInsets.only(top: 11, left: 10, right: 10),
@@ -248,11 +271,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       );
                     } else {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //       builder: (context) => CreateNewAccountScreen()),
-                      // );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginScreen()),
+                      );
                     }
                   },
                   child: const Padding(

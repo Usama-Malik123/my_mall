@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
+import 'buttons.dart';
+import 'explore_scroll.dart';
 
-class Categories extends StatefulWidget {
-  const Categories({Key? key}) : super(key: key);
-
+class Explore extends StatefulWidget {
+  const Explore({Key? key}) : super(key: key);
   @override
-  State<Categories> createState() => _CategoriesState();
+  State<Explore> createState() => _ExploreState();
 }
 
-class _CategoriesState extends State<Categories> {
+class _ExploreState extends State<Explore> {
   @override
   Widget build(BuildContext context) {
     List<Map<String, dynamic>> items = [
@@ -46,17 +47,21 @@ class _CategoriesState extends State<Categories> {
                           IconButton(
                             icon: Icon(Icons.search),
                             onPressed: () {
-                              // Perform search action
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Explore_Scroll()),
+                              );
                             },
                           ),
                           SizedBox(
-                            height: 50,
                             width: 100,
                             child: TextField(
                               decoration: InputDecoration(
                                 hintText: 'Search',
                                 border: InputBorder.none,
-                                contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 16),
                               ),
                             ),
                           ),
@@ -65,7 +70,7 @@ class _CategoriesState extends State<Categories> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Icon(Icons.search),
+                      child: Icon(Icons.camera_alt),
                     ),
                   ],
                 ),
@@ -86,16 +91,21 @@ class _CategoriesState extends State<Categories> {
                     return Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8.0),
                       child: SizedBox(
-                        child: Center(
-                          child: Column(
-                            children: [
-                              Icon(items[index]['icon']),
-                              const SizedBox(height: 6),
-                              Text(
-                                items[index]['text'],
-                                overflow: TextOverflow.ellipsis,
-                              )
-                            ],
+                        child: GestureDetector(
+                          onTap: () {
+                            print('${items[index]['text']} pressed');
+                          },
+                          child: Center(
+                            child: Column(
+                              children: [
+                                Icon(items[index]['icon']),
+                                const SizedBox(height: 6),
+                                Text(
+                                  items[index]['text'],
+                                  overflow: TextOverflow.ellipsis,
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -104,7 +114,8 @@ class _CategoriesState extends State<Categories> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 4.0, left: 12.0, right: 12.0, bottom: 20.0),
+                padding: const EdgeInsets.only(
+                    top: 4.0, left: 12.0, right: 12.0, bottom: 20.0),
                 child: Row(
                   children: [
                     Text("Best Selling"),
@@ -135,19 +146,26 @@ class _CategoriesState extends State<Categories> {
                             Text(
                               "Testing Title",
                               textAlign: TextAlign.start,
-                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w900),
                               overflow: TextOverflow.ellipsis,
                             ),
                             Text(
                               "Sub Title",
                               textAlign: TextAlign.start,
-                              style: TextStyle(fontSize: 12, color: Colors.grey, fontWeight: FontWeight.w900),
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w900),
                               overflow: TextOverflow.ellipsis,
                             ),
                             Text(
                               "Rs 750",
                               textAlign: TextAlign.start,
-                              style: TextStyle(fontSize: 12, color: Colors.green, fontWeight: FontWeight.w900),
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.w900),
                               overflow: TextOverflow.ellipsis,
                             )
                           ],
@@ -157,38 +175,7 @@ class _CategoriesState extends State<Categories> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    MaterialButton(
-                      onPressed: () {},
-                      textColor: Colors.black,
-                      child: Icon(
-                        Icons.explore_off_sharp,
-                        size: 22,
-                      ),
-                    ),
-                    MaterialButton(
-                      onPressed: () {},
-                      textColor: Colors.black,
-                      child: Icon(
-                        Icons.shopping_cart,
-                        size: 22,
-                      ),
-                    ),
-                    MaterialButton(
-                      onPressed: () {},
-                      textColor: Colors.black,
-                      child: Icon(
-                        Icons.contact_phone,
-                        size: 22,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              Buttons(),
             ],
           ),
         ),
